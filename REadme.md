@@ -38,3 +38,5 @@ deactivate
 ```
 
 Pronto! Agora você pode gerenciar dependências de forma isolada em seus projetos Python.
+
+Para rodar o projeto: python manage.py runserver

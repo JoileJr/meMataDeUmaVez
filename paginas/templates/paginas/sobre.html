@@ -4,16 +4,15 @@
 
 
 {% block conteudo %}
-<div class="container justify-content-center align-items-center">
+<div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh;">
     <h3>Diagrama de classe</h3>
-
     <p>O diagrama de classe é uma representação visual das classes, atributos e métodos do sistema, mostrando como eles se relacionam entre si.</p>
-    <img src="{% static 'img/diagrama_classe.png' %}" alt="Diagrama de Classe" class="img-fluid w-50">
+    <img src="{% static 'img/diagrama_classe.png' %}" alt="Diagrama de Classe" class="img-fluid mb-5" style="width: 80%; max-width: 900px;">
 
-    <h3>Diagrama de sequência</h3>
+    <h3 class="mt-4">Diagrama de sequência</h3>
     <p>O diagrama de sequência ilustra a interação entre os objetos do sistema ao longo do tempo, destacando a ordem das mensagens trocadas.</p>
-    <img src="{% static 'img/diagrama_de_sequencia.png' %}" alt="Diagrama de Sequencia" class="img-fluid w-50">
+    <img src="{% static 'img/diagrama_de_sequencia.png' %}" alt="Diagrama de Sequencia" class="img-fluid mb-5" style="width: 80%; max-width: 900px;">
 
-    <p>Contato: joilejuniot2@gmail.com</p>
+    <p class="mt-4">Contato: joilejunior2@gmail.com</p>
 </div>
 {% endblock %}
