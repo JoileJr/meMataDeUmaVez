@@ -7,40 +7,41 @@
 
 <hr>
 
-<table class="table table-striped">
-    <thead>
-        <th>Nome Fantasia</th>
-        <th>CNPJ</th>
-        <th>Ações</th>
+<div class="d-flex justify-content-center mb-3">
+    <a class="btn btn-success mb-3" href="{% url 'cadastrar-barbearia' %}">
+        <i class="bi bi-plus-circle"></i> Nova Barbearia
+    </a>
+</div>
+
+<table class="table table-hover align-middle shadow-sm rounded bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col"><i class="bi bi-shop"></i> Nome Fantasia</th>
+            <th scope="col"><i class="bi bi-file-earmark-text"></i> CNPJ</th>
+            <th scope="col"><i class="bi bi-file-earmark-text"></i> Endereço</th>
+            <th scope="col" class="text-center"><i class="bi bi-tools"></i> Ações</th>
+        </tr>
     </thead>
     <tbody>
         {% for object in object_list %}
             <tr>
-                <td>{{ object.nome_fantasia }}</td>
-                <td>{{ object.cnpj }}</td>
+                <td class="fw-semibold">{{ object.nome_fantasia }}</td>
+                <td class="fw-semibold">{{ object.cnpj }}</td>
+                <td class="fw-semibold">{{ object.endereco }}</td>
                 <td>
-                    <div class="dropdown">
-                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-gear"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item link-primary" href="{% url 'editar-barbearia' object.pk  %}">
-                                    <i class="bi bi-pencil-square"></i> Editar
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item link-danger" href="{% url 'excluir-barbearia' object.pk  %}">
-                                    <i class="bi bi-trash"></i> Excluir
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-barbearia' object.pk  %}">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-barbearia' object.pk  %}">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
                 </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="3">Nenhum registro encontrado.</td>
+                <td colspan="3" class="text-center text-muted py-4">
+                    <i class="bi bi-exclamation-circle"></i> Nenhum registro encontrado.
+                </td>
             </tr>
         {% endfor %}
     </tbody>

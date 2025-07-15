@@ -42,7 +42,7 @@ class EnderecoDeleteView(DeleteView):
 
 class BarbeariaDeleteView(DeleteView):
     model = Barbearia
-    template_name = 'cadastros/form-.html'
+    template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('index')
     
 ## List Views ##

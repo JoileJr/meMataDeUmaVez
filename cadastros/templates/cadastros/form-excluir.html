@@ -3,29 +3,33 @@
 {% load static %}
 
 {% block conteudo %}
-<h3 class="text-danger">
+<h3 class="text-danger mb-4">
     {{ titulo|default:"Exclusão de registros" }}
 </h3>
 
 <hr>
 
-<div class="row">
-    <div class="col-lg">
-        
-        <form method="POST">
-            {% csrf_token %}
-        
-            <p class="fs-4">
-                Deseja excluir o registro
-                <span class="fw-bold">{{ object }}</span>?
-            </p>
-        
-            <button type="submit" class="btn btn-danger">
-                Excluir
-            </button>
-        
-        </form>
-        
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card border-danger shadow-sm">
+            <div class="card-body">
+                <form method="POST" class="text-center">
+                    {% csrf_token %}
+                    <p class="fs-5 mb-4">
+                        Deseja realmente excluir o registro
+                        <span class="fw-bold text-danger">{{ object }}</span>?
+                    </p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="submit" class="btn btn-danger px-4">
+                            <i class="bi bi-trash"></i> Excluir
+                        </button>
+                        <a href="javascript:history.back()" class="btn btn-secondary px-4">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

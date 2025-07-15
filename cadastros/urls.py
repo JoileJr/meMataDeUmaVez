@@ -12,5 +12,5 @@ urlpatterns = [
     path('excluir/endereco/<int:pk>/', EnderecoDeleteView.as_view(), name='excluir-endereco'),
     path('excluir/barbearia/<int:pk>/', BarbeariaDeleteView.as_view(), name='excluir-barbearia'),
     
-    path('listar/barbearias/', BarbeariaListView.as_view(), name='barbearia-list'),
+    path('listar/barbearias/', BarbeariaListView.as_view(), name='barbearia-lista' ),
 ]
