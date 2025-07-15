@@ -1,0 +1,52 @@
+{% extends "paginas/modelo.html" %}
+
+{% block conteudo %}
+<h3>
+    Lista de <b>Administradores</b>
+</h3>
+
+<hr>
+
+<div class="d-flex justify-content-center mb-3">
+    <a class="btn btn-success mb-3" href="{% url 'cadastrar-admin' %}">
+        <i class="bi bi-plus-circle"></i> Adicionar administrador
+    </a>
+</div>
+
+<table class="table table-hover align-middle shadow-sm rounded bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col"><i class="bi bi-shop"></i> Nome</th>
+            <th scope="col"><i class="bi bi-shop"></i> Telefone</th>
+            <th scope="col"><i class="bi bi-file-earmark-text"></i> Email</th>
+            <th scope="col"><i class="bi bi-file-earmark-text"></i> Cargo</th>
+            <th scope="col" class="text-center"><i class="bi bi-tools"></i> Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td class="fw-semibold">{{ object.nome }}</td>
+                <td class="fw-semibold">{{ object.telefone }}</td>
+                <td class="fw-semibold">{{ object.email }}</td>
+                <td class="fw-semibold">{{ object.cargo }}</td>
+                <td>
+                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-admin' object.pk  %}">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-admin' object.pk  %}">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3" class="text-center text-muted py-4">
+                    <i class="bi bi-exclamation-circle"></i> Nenhum registro encontrado.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
