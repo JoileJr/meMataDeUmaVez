@@ -22,4 +22,5 @@ urlpatterns = [
     
     # importa as urls dos 
     path("", include("paginas.urls")),
+    path("", include("cadastros.urls")),
 ]
