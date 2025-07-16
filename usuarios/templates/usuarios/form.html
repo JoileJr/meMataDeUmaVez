@@ -1,0 +1,20 @@
+{% extends "paginas/modelo.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block conteudo %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container" style="min-width: 600px;">
+        <h2 class="mb-4 text-center">Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
