@@ -1,0 +1,33 @@
+{% extends "paginas/modelo.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block conteudo %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container" style="min-width: 600px;">
+        
+        {% if user.is_authenticated %}
+            <h2 class="mb-4 text-center">Olá, {{ user.username }}!</h2>
+        {% else %}
+            <h2 class="mb-4 text-center">Login</h2>
+        {% endif %}
+            
+
+        {% if user.is_authenticated %}
+            <div class="alert alert-danger text-center" role="alert">
+                Voce tentou acessar uma página sem estar logado em uma conta com o nivel de permissão necessaria. Por favor, faça login para continuar.
+            </div>
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
