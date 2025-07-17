@@ -15,6 +15,12 @@ class EnderecoCreateView(LoginRequiredMixin, CreateView):
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('index')
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        url_sucesso = super().form_valid(form)
+        return url_sucesso
+    
 class EnderecoUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     model = Endereco
@@ -42,6 +48,11 @@ class BarbeariaCreateView(LoginRequiredMixin, CreateView):
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('index')
     
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        url_sucesso = super().form_valid(form)
+        return url_sucesso
+    
 class BarbeariaDeleteView(LoginRequiredMixin, DeleteView):
     login_url = reverse_lazy('login')
     model = Barbearia
@@ -54,6 +65,9 @@ class BarbeariaListView(LoginRequiredMixin, ListView):
     template_name = 'listas/barbearia.html'
     context_object_name = 'barbearias'
     
+    def get_queryset(self):
+        return Barbearia.objects.filter(usuario=self.request.user)
+    
 ## Administrador Views ##
 class AdministradorCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     group_required = U"Adminstrador"
@@ -62,6 +76,11 @@ class AdministradorCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView
     fields = ['nome', 'email', 'telefone', 'cargo', 'barbearia']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('index')
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        url_sucesso = super().form_valid(form)
+        return url_sucesso
 
 class AdministradorUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     group_required = U"Adminstrador"
@@ -85,12 +104,20 @@ class AdministradorListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     template_name = 'listas/administrador.html'
     context_object_name = 'administradores'
     
+    def get_queryset(self):
+        return Administrador.objects.filter(usuario=self.request.user)
+    
 class BarbeiroCreateView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = Barbeiro
     fields = ['nome', 'telefone', 'especialidade', 'ativo', 'barbearia']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('barbeiro-lista')
+    
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        url_sucesso = super().form_valid(form)
+        return url_sucesso
     
 class BarbeiroUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
@@ -110,3 +137,6 @@ class BarbeiroListView(LoginRequiredMixin, ListView):
     model = Barbeiro
     template_name = 'listas/barbeiro.html'
     context_object_name = 'barbeiros'
+    
+    def get_queryset(self):
+        return Barbeiro.objects.filter(usuario=self.request.user)
