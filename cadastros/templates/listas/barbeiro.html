@@ -31,10 +31,10 @@
                 <td class="fw-semibold">{{ object.especialidade }}</td>
                 <td class="fw-semibold">{{ object.barbearia }}</td>
                 <td>
-                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-admin' object.pk  %}">
+                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-barbeiro' object.pk  %}">
                         <i class="bi bi-pencil-square"></i> Editar
                     </a>
-                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-admin' object.pk  %}">
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-barbeiro' object.pk  %}">
                         <i class="bi bi-trash"></i> Excluir
                     </a>
                 </td>
