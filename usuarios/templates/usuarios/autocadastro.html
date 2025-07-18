@@ -1,0 +1,23 @@
+{% extends "paginas/modelo.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block conteudo %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container" style="min-width: 600px;">
+        <h2 class="mb-4 text-center">
+            {{ titulo|default:"Cadastrar" }}
+        </h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Cadastrar-se</button>
+                <a href="{% url 'login' %}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
