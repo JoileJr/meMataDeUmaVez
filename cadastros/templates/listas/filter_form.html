@@ -1,0 +1,49 @@
+{% load crispy_forms_tags %}
+
+<style>
+form.row div[id*="div_id"] {
+    flex: 0 0 auto;
+    width: auto;
+    margin-right: 1rem;
+    margin-bottom: 0;
+}
+#collapseForm {
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1.5rem 1rem 1rem 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+#collapseForm form {
+    align-items: flex-end;
+}
+#btnSubmit, #btnLimpar {
+    min-width: 110px;
+}
+</style>
+
+<div class="d-flex justify-content-end mb-2">
+    <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="false" aria-controls="collapseForm">
+        <i class="bi bi-search"></i> Filtros
+    </button>
+</div>
+
+<div class="collapse" id="collapseForm">
+    <form class="row gy-2 gx-3 justify-content-center mt-2 pb-2" action="" method="get">
+        {{ filter.form|crispy }}
+        <div class="col-auto d-flex gap-2 align-items-end">
+            <button type="submit" class="btn btn-outline-primary" id="btnSubmit">
+                <i class="bi bi-search"></i>
+                Filtrar
+            </button>
+            <a href="#" class="btn btn-outline-secondary" id="btnLimpar">
+                <i class="bi bi-x-lg"></i>
+                Limpar
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('btnLimpar').href = window.location.pathname;
+</script>
