@@ -16,5 +16,3 @@ class UsuarioForm(UserCreationForm):
             raise ValidationError("O email {} já está em uso.".format(e))
 
         return e
-
-        

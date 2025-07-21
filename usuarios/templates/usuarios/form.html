@@ -7,14 +7,38 @@
 {% block conteudo %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="container" style="min-width: 600px;">
-        <h2 class="mb-4 text-center">Login</h2>
+        <h2 class="mb-4 text-center">
+            {{ titulo|default:"Cadastrar" }}
+        </h2>
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary">Entrar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery.mask.min.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+
+        $("#id_cpf").mask("000.000.000-00");
+        $("id_cnpj").mask("00.000.000/0000-00");
+        var SPMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 0 0000-0000' : '(00) 0000-00009';
+        },
+            spOptions = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            };
+
+        $('#id_telefone').mask(SPMaskBehavior, spOptions);
+    });
+</script>
 {% endblock %}
