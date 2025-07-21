@@ -18,11 +18,11 @@ class EnderecoListView(LoginRequiredMixin, ListView):
         return Endereco.objects.filter(usuario=self.request.user)
 
 class EnderecoCreateView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('endereco-lista')
+    login_url = reverse_lazy('login')
     model = Endereco
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('endereco-lista')
     extra_context = {
         "titulo" : "Cadastro de Endereço"
     }
@@ -33,11 +33,11 @@ class EnderecoCreateView(LoginRequiredMixin, CreateView):
         return url_sucesso
     
 class EnderecoUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy('endereco-lista')
+    login_url = reverse_lazy('login')
     model = Endereco
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('endereco-lista')
     extra_context = {
         "titulo" : "Atualização de Endereço"
     }
@@ -49,7 +49,7 @@ class EnderecoDeleteView(LoginRequiredMixin, DeleteView):
     login_url = reverse_lazy('login')
     model = Endereco
     template_name = 'cadastros/form-excluir.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('endereco-lista')
     
     def get_queryset(self):
         return Endereco.objects.filter(usuario=self.request.user)
@@ -59,7 +59,7 @@ class BarbeariaUpdateView(LoginRequiredMixin, UpdateView):
     model = Barbearia
     fields = ['nome_fantasia', 'razao_social', 'cnpj', 'telefone', 'email', 'endereco']
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('barbearia-lista')
     extra_context = {
         "titulo" : "Atualização de Barbearia"
     }
@@ -77,7 +77,7 @@ class BarbeariaCreateView(LoginRequiredMixin, CreateView):
     model = Barbearia
     fields = ['nome_fantasia', 'razao_social', 'cnpj', 'telefone', 'email', 'endereco']
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('barbearia-lista')
     extra_context = {
         "titulo" : "Cadastro de Barbearia"
     }
@@ -96,7 +96,7 @@ class BarbeariaDeleteView(LoginRequiredMixin, DeleteView):
     login_url = reverse_lazy('login')
     model = Barbearia
     template_name = 'cadastros/form-excluir.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('barbearia-lista')
     
     def get_queryset(self):
         return Barbearia.objects.filter(usuario=self.request.user)
@@ -138,7 +138,7 @@ class AdministradorUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView
     model = Administrador
     fields = ['nome', 'email', 'telefone', 'cargo', 'barbearia']
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('administrador-lista')
     extra_context = {
         "titulo" : "Atualização de Administrador"
     }
@@ -156,7 +156,7 @@ class AdministradorDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView
     login_url = reverse_lazy('login')
     model = Administrador
     template_name = 'cadastros/form-excluir.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('administrador-lista')
     
     def get_queryset(self):
         return Administrador.objects.filter(usuario=self.request.user)
