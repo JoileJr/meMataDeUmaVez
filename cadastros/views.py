@@ -291,3 +291,50 @@ class ServicoDeleteView(LoginRequiredMixin, DeleteView):
     
     def get_queryset(self):
         return Servico.objects.filter(usuario=self.request.user)
+    
+class ClienteCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    model = Cliente
+    fields = ['nome', 'telefone', 'email', 'data_nascimento']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('cliente-lista')
+    success_message = "Cliente cadastrado com sucesso!"
+    extra_context = {
+        "titulo": "Cadastro de Cliente"
+    }
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class ClienteUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    model = Cliente
+    fields = ['nome', 'telefone', 'email', 'data_nascimento']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('cliente-lista')
+    success_message = "Cliente atualizado com sucesso!"
+    extra_context = {
+        "titulo": "Atualização de Cliente"
+    }
+
+    def get_queryset(self):
+        return Cliente.objects.filter(usuario=self.request.user)
+
+class ClienteDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    model = Cliente
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('cliente-lista')
+    
+    def get_queryset(self):
+        return Cliente.objects.filter(usuario=self.request.user)
+    
+class ClienteListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    model = Cliente
+    template_name = 'listas/cliente.html'
+    context_object_name = 'clientes'
+    
+    def get_queryset(self):
+        return Cliente.objects.filter(usuario=self.request.user)
