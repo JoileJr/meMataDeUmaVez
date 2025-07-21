@@ -53,7 +53,9 @@
 <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.js"></script>
 <script>
     $(document).ready( function () {
-        $('#table-lista').DataTable();
+        $('#table-lista').DataTable(
+            paging: true,
+        );
 
         $("input[name*=nascimento]").prop("type", "date");
     });
