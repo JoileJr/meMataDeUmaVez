@@ -1,5 +1,6 @@
 from django.views.generic.edit import CreateView,  UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.contrib.messages.views import SuccessMessageMixin  # Adicionado
 
 from .models import Endereco, Barbearia, Administrador, Barbeiro, Servico, Cliente
 
@@ -17,12 +18,13 @@ class EnderecoListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Endereco.objects.filter(usuario=self.request.user)
 
-class EnderecoCreateView(LoginRequiredMixin, CreateView):
+class EnderecoCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = Endereco
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('endereco-lista')
+    success_message = "Endereço cadastrado com sucesso!"
     extra_context = {
         "titulo" : "Cadastro de Endereço"
     }
@@ -32,12 +34,13 @@ class EnderecoCreateView(LoginRequiredMixin, CreateView):
         url_sucesso = super().form_valid(form)
         return url_sucesso
     
-class EnderecoUpdateView(LoginRequiredMixin, UpdateView):
+class EnderecoUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     model = Endereco
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('endereco-lista')
+    success_message = "Endereço atualizado com sucesso!"
     extra_context = {
         "titulo" : "Atualização de Endereço"
     }
@@ -72,12 +75,13 @@ class BarbeariaUpdateView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         return Barbearia.objects.filter(usuario=self.request.user)
 
-class BarbeariaCreateView(LoginRequiredMixin, CreateView):
+class BarbeariaCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = Barbearia
     fields = ['nome_fantasia', 'razao_social', 'cnpj', 'telefone', 'email', 'endereco']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('barbearia-lista')
+    success_message = "Barbearia cadastrada com sucesso!"
     extra_context = {
         "titulo" : "Cadastro de Barbearia"
     }
@@ -111,13 +115,14 @@ class BarbeariaListView(LoginRequiredMixin, ListView):
         return Barbearia.objects.filter(usuario=self.request.user)
     
 ## Administrador Views ##
-class AdministradorCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+class AdministradorCreateView(SuccessMessageMixin, GroupRequiredMixin, LoginRequiredMixin, CreateView):
     group_required = U"Adminstrador"
     login_url = reverse_lazy('login')
     model = Administrador
     fields = ['nome', 'email', 'telefone', 'cargo', 'barbearia']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('index')
+    success_message = "Administrador cadastrado com sucesso!"
     extra_context = {
         "titulo" : "Cadastro de Administrador"
     }
@@ -132,13 +137,14 @@ class AdministradorCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView
         url_sucesso = super().form_valid(form)
         return url_sucesso
 
-class AdministradorUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+class AdministradorUpdateView(SuccessMessageMixin, GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     group_required = U"Adminstrador"
     login_url = reverse_lazy('login')
     model = Administrador
     fields = ['nome', 'email', 'telefone', 'cargo', 'barbearia']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('administrador-lista')
+    success_message = "Administrador atualizado com sucesso!"
     extra_context = {
         "titulo" : "Atualização de Administrador"
     }
@@ -171,12 +177,13 @@ class AdministradorListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Administrador.objects.filter(usuario=self.request.user)
     
-class BarbeiroCreateView(LoginRequiredMixin, CreateView):
+class BarbeiroCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = Barbeiro
     fields = ['nome', 'telefone', 'especialidade', 'ativo', 'barbearia']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('barbeiro-lista')
+    success_message = "Barbeiro cadastrado com sucesso!"
     extra_context = {
         "titulo" : "Cadastro de Barbeiro"
     }
@@ -190,13 +197,14 @@ class BarbeiroCreateView(LoginRequiredMixin, CreateView):
         form.instance.usuario = self.request.user
         url_sucesso = super().form_valid(form)
         return url_sucesso
-    
-class BarbeiroUpdateView(LoginRequiredMixin, UpdateView):
+
+class BarbeiroUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     model = Barbeiro
     fields = ['nome', 'telefone', 'especialidade', 'ativo', 'barbearia']
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('barbeiro-lista')
+    success_message = "Barbeiro atualizado com sucesso!"
     extra_context = {
         "titulo" : "Atualização de Barbeiro"
     }
@@ -226,3 +234,60 @@ class BarbeiroListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         return Barbeiro.objects.filter(usuario=self.request.user)
+    
+class ServicoListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    model = Servico
+    template_name = 'listas/servico.html'
+    context_object_name = 'servicos'
+    
+    def get_queryset(self):
+        return Servico.objects.filter(usuario=self.request.user)
+
+class ServicoCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    model = Servico
+    fields = ['nome', 'descricao', 'preco', 'duracao_minutos', 'barbearia']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('servico-lista')
+    success_message = "Serviço cadastrado com sucesso!"
+    extra_context = {
+        "titulo": "Cadastro de Serviço"
+    }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        return form
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class ServicoUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    model = Servico
+    fields = ['nome', 'descricao', 'preco', 'duracao_minutos', 'barbearia']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('servico-lista')
+    success_message = "Serviço atualizado com sucesso!"
+    extra_context = {
+        "titulo": "Atualização de Serviço"
+    }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        return form
+
+    def get_queryset(self):
+        return Servico.objects.filter(usuario=self.request.user)
+    
+class ServicoDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    model = Servico
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('servico-lista')
+    
+    def get_queryset(self):
+        return Servico.objects.filter(usuario=self.request.user)

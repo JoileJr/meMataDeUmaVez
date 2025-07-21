@@ -1,0 +1,107 @@
+{% extends "paginas/modelo.html" %}
+
+{% block conteudo %}
+<h3>
+    Lista de <b>Serviços</b>
+</h3>
+
+<hr>
+
+<div class="d-flex justify-content-center mb-3">
+    <a class="btn btn-success mb-3" href="{% url 'cadastrar-servico' %}">
+        <i class="bi bi-plus-circle"></i> Adicionar serviço
+    </a>
+</div>
+
+<table id="table-lista" class="table table-hover align-middle shadow-sm rounded bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col"><i class="bi bi-scissors"></i> Nome</th>
+            <th scope="col"><i class="bi bi-card-text"></i> Descrição</th>
+            <th scope="col"><i class="bi bi-currency-dollar"></i> Preço</th>
+            <th scope="col"><i class="bi bi-clock"></i> Duração (min)</th>
+            <th scope="col" class="text-center"><i class="bi bi-tools"></i> Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td class="fw-semibold">{{ object.nome }}</td>
+                <td class="fw-semibold">{{ object.descricao }}</td>
+                <td class="fw-semibold">R$ {{ object.preco }}</td>
+                <td class="fw-semibold">{{ object.duracao_minutos }}</td>
+                <td class="text-center">
+                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-servico' object.pk  %}">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-servico' object.pk  %}">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted py-4">
+                    <i class="bi bi-exclamation-circle"></i> Nenhum registro encontrado.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+{% block scripts %}
+<link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.css" rel="stylesheet">
+<style>
+    .dataTables_wrapper .dataTables_paginate .pagination {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+        color: #198754;
+        border: 1px solid #dee2e6;
+        background-color: #fff;
+        margin: 0 2px;
+        border-radius: 0.5rem;
+        transition: background 0.2s, color 0.2s;
+    }
+    .dataTables_wrapper .dataTables_paginate .page-item.active .page-link,
+    .dataTables_wrapper .dataTables_paginate .page-item .page-link:focus {
+        background-color: #198754;
+        color: #fff;
+        border-color: #198754;
+        outline: none;
+        box-shadow: 0 0 0 0.15rem rgba(25,135,84,.25);
+    }
+    .dataTables_wrapper .dataTables_paginate .page-item .page-link:hover {
+        background-color: #e9f7ef;
+        color: #145c32;
+    }
+    .dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link {
+        color: #adb5bd;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+</style>
+<script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table-lista').DataTable({
+            paging: true,
+            language: {
+                paginate: {
+                    previous: '<span class="bi bi-chevron-double-left"></span>',
+                    next: '<span class="bi bi-chevron-double-right"></span>'
+                },
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "Nenhum registro encontrado",
+                info: "Mostrando página _PAGE_ de _PAGES_",
+                infoEmpty: "Nenhum registro disponível",
+                infoFiltered: "(filtrado de _MAX_ registros no total)",
+                search: "Buscar:"
+            }
+        });
+    });
+</script>
+
+{% endblock %}

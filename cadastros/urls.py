@@ -3,6 +3,7 @@ from django.urls import path
 from .views import EnderecoCreateView, BarbeariaCreateView, BarbeariaUpdateView, EnderecoUpdateView, EnderecoDeleteView, BarbeariaDeleteView, BarbeariaListView
 from .views import AdministradorCreateView, AdministradorUpdateView, AdministradorDeleteView, AdministradorListView
 from .views import BarbeiroCreateView, BarbeiroUpdateView, BarbeiroDeleteView, BarbeiroListView, EnderecoListView
+from .views import ServicoListView, ServicoCreateView, ServicoUpdateView, ServicoDeleteView
 
 urlpatterns = [
     path('cadastrar/endereco/', EnderecoCreateView.as_view(), name='cadastrar-endereco'),
@@ -24,4 +25,9 @@ urlpatterns = [
     path('editar/barbeiro/<int:pk>/', BarbeiroUpdateView.as_view(), name='editar-barbeiro'),
     path('excluir/barbeiro/<int:pk>/', BarbeiroDeleteView.as_view(), name='excluir-barbeiro'),
     path('listar/barbeiros/', BarbeiroListView.as_view(), name='barbeiro-lista'),
+    
+    path('cadastrar/servico/', ServicoCreateView.as_view(), name='cadastrar-servico'),
+    path('editar/servico/<int:pk>/', ServicoUpdateView.as_view(), name='editar-servico'),
+    path('listar/servicos/', ServicoListView.as_view(), name='servico-lista'),
+    path('excluir/servico/<int:pk>/', ServicoDeleteView.as_view(), name='excluir-servico'),
 ]
