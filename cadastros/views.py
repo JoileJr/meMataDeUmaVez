@@ -2,7 +2,7 @@ from django.views.generic.edit import CreateView,  UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin  # Adicionado
 
-from .models import Endereco, Barbearia, Administrador, Barbeiro, Servico, Cliente
+from .models import Endereco, Barbearia, Administrador, Barbeiro, Servico, Cliente, Agendamento
 
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -78,7 +78,8 @@ class BarbeariaUpdateView(LoginRequiredMixin, UpdateView):
 class BarbeariaCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = Barbearia
-    fields = ['nome_fantasia', 'razao_social', 'cnpj', 'telefone', 'email', 'endereco']
+    fields = ['nome_fantasia', 'razao_social', 'cnpj', 'telefone', 'email', 'endereco'
+]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('barbearia-lista')
     success_message = "Barbearia cadastrada com sucesso!"
@@ -338,3 +339,66 @@ class ClienteListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         return Cliente.objects.filter(usuario=self.request.user)
+
+class AgendamentoCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    model = Agendamento
+    fields = ['data_hora', 'status', 'observacoes', 'barbearia', 'cliente', 'barbeiro', 'servico']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('agendamento-lista')
+    success_message = "Agendamento cadastrado com sucesso!"
+    extra_context = {
+        "titulo": "Cadastro de Agendamento"
+    }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        form.fields['cliente'].queryset = Cliente.objects.filter(usuario=self.request.user)
+        form.fields['barbeiro'].queryset = Barbeiro.objects.filter(usuario=self.request.user)
+        form.fields['servico'].queryset = Servico.objects.filter(usuario=self.request.user)
+        return form
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class AgendamentoUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    model = Agendamento
+    fields = ['data_hora', 'status', 'observacoes', 'barbearia', 'cliente', 'barbeiro', 'servico']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('agendamento-lista')
+    success_message = "Agendamento atualizado com sucesso!"
+    extra_context = {
+        "titulo": "Atualização de Agendamento"
+    }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        form.fields['cliente'].queryset = Cliente.objects.filter(usuario=self.request.user)
+        form.fields['barbeiro'].queryset = Barbeiro.objects.filter(usuario=self.request.user)
+        form.fields['servico'].queryset = Servico.objects.filter(usuario=self.request.user)
+        return form
+
+    def get_queryset(self):
+        return Agendamento.objects.filter(usuario=self.request.user)
+
+class AgendamentoDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    model = Agendamento
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('agendamento-lista')
+
+    def get_queryset(self):
+        return Agendamento.objects.filter(usuario=self.request.user)
+
+class AgendamentoListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    model = Agendamento
+    template_name = 'listas/agendamento.html'
+    context_object_name = 'agendamentos'
+
+    def get_queryset(self):
+        return Agendamento.objects.filter(usuario=self.request.user)

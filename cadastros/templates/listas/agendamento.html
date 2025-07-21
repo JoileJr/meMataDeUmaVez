@@ -1,0 +1,79 @@
+{% extends "paginas/modelo.html" %}
+
+{% block conteudo %}
+<h3>
+    Lista de <b>Agendamentos</b>
+</h3>
+
+<hr>
+
+<div class="d-flex justify-content-center mb-3">
+    <a class="btn btn-success mb-3" href="{% url 'cadastrar-agendamento' %}">
+        <i class="bi bi-plus-circle"></i> Adicionar agendamento
+    </a>
+</div>
+
+<table id="table-lista" class="table table-hover align-middle shadow-sm rounded bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col"><i class="bi bi-person"></i> Cliente</th>
+            <th scope="col"><i class="bi bi-calendar-event"></i> Data/Hora</th>
+            <th scope="col"><i class="bi bi-scissors"></i> Serviço</th>
+            <th scope="col"><i class="bi bi-person-badge"></i> Barbeiro</th>
+            <th scope="col"><i class="bi bi-shop"></i> Barbearia</th>
+            <th scope="col"><i class="bi bi-info-circle"></i> Status</th>
+            <th scope="col" class="text-center"><i class="bi bi-tools"></i> Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in agendamentos %}
+            <tr>
+                <td class="fw-semibold">{{ object.cliente.nome }}</td>
+                <td class="fw-semibold">{{ object.data_hora|date:"d/m/Y H:i" }}</td>
+                <td class="fw-semibold">{{ object.servico.nome }}</td>
+                <td class="fw-semibold">{{ object.barbeiro.nome }}</td>
+                <td class="fw-semibold">{{ object.barbearia.nome_fantasia }}</td>
+                <td class="fw-semibold">{{ object.get_status_display }}</td>
+                <td class="text-center">
+                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-agendamento' object.pk %}">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-agendamento' object.pk %}">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7" class="text-center text-muted py-4">
+                    <i class="bi bi-exclamation-circle"></i> Nenhum registro encontrado.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table-lista').DataTable({
+            paging: true,
+            language: {
+                paginate: {
+                    previous: '<span class="bi bi-chevron-double-left"></span>',
+                    next: '<span class="bi bi-chevron-double-right"></span>'
+                },
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "Nenhum registro encontrado",
+                info: "Mostrando página _PAGE_ de _PAGES_",
+                infoEmpty: "Nenhum registro disponível",
+                infoFiltered: "(filtrado de _MAX_ registros no total)",
+                search: "Buscar:"
+            }
+        });
+    });
+</script>
+{% endblock %}
