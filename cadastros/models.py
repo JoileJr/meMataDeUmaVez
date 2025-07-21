@@ -90,8 +90,15 @@ class Agendamento(models.Model):
         return f"{self.cliente.nome} - {self.data_hora}"
 
 class Pagamento(models.Model):
+    PAGAMENTO_CHOICES = [
+        ('dinheiro', 'Dinheiro'),
+        ('cartao_credito', 'Cartão de Crédito'),
+        ('cartao_debito', 'Cartão de Débito'),
+        ('pix', 'Pix'),
+        ('boleto', 'Boleto'),
+    ]
     valor = models.DecimalField(max_digits=8, decimal_places=2, help_text="Valor do pagamento")
-    metodo = models.CharField(max_length=50, help_text="Método de pagamento")
+    metodo = models.CharField(max_length=50, help_text="Método de pagamento", choices=PAGAMENTO_CHOICES, default='Dinheiro')
     data_hora = models.DateTimeField(help_text="Data e hora do pagamento")
     agendamento = models.OneToOneField(Agendamento, on_delete=models.CASCADE, related_name='pagamento', null=True, blank=True, help_text="Agendamento relacionado (opcional)")
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pagamento_usuario', help_text="Usuário responsável pelo pagamento")

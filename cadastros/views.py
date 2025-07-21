@@ -2,7 +2,7 @@ from django.views.generic.edit import CreateView,  UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin  # Adicionado
 
-from .models import Endereco, Barbearia, Administrador, Barbeiro, Servico, Cliente, Agendamento
+from .models import Endereco, Barbearia, Administrador, Barbeiro, Servico, Cliente, Agendamento, Pagamento
 
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -402,3 +402,60 @@ class AgendamentoListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Agendamento.objects.filter(usuario=self.request.user)
+    
+class PagamentoCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    model = Pagamento
+    fields = ['valor', 'metodo', 'data_hora', 'agendamento']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('pagamento-lista')
+    success_message = "Pagamento cadastrado com sucesso!"
+    extra_context = {
+        "titulo": "Cadastro de Pagamento"
+    }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['agendamento'].queryset = Agendamento.objects.filter(usuario=self.request.user)
+        return form
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class PagamentoUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    model = Pagamento
+    fields = ['valor', 'metodo', 'data_hora', 'agendamento']
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('pagamento-lista')
+    success_message = "Pagamento atualizado com sucesso!"
+    extra_context = {
+        "titulo": "Atualização de Pagamento"
+    }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['agendamento'].queryset = Agendamento.objects.filter(usuario=self.request.user)
+        return form
+
+    def get_queryset(self):
+        return Pagamento.objects.filter(usuario=self.request.user)
+
+class PagamentoDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    model = Pagamento
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('pagamento-lista')
+
+    def get_queryset(self):
+        return Pagamento.objects.filter(usuario=self.request.user)
+    
+class PagamentoListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    model = Pagamento
+    template_name = 'listas/pagamento.html'
+    context_object_name = 'pagamentos'
+
+    def get_queryset(self):
+        return Pagamento.objects.filter(usuario=self.request.user)

@@ -6,6 +6,7 @@ from .views import BarbeiroCreateView, BarbeiroUpdateView, BarbeiroDeleteView, B
 from .views import ServicoListView, ServicoCreateView, ServicoUpdateView, ServicoDeleteView
 from .views import ClienteCreateView, ClienteUpdateView, ClienteDeleteView, ClienteListView
 from .views import AgendamentoListView, AgendamentoCreateView, AgendamentoUpdateView, AgendamentoDeleteView
+from .views import PagamentoListView, PagamentoCreateView, PagamentoUpdateView, PagamentoDeleteView
 
 urlpatterns = [
     path('cadastrar/endereco/', EnderecoCreateView.as_view(), name='cadastrar-endereco'),
@@ -42,4 +43,9 @@ urlpatterns = [
     path('editar/agendamento/<int:pk>/', AgendamentoUpdateView.as_view(), name='editar-agendamento'),
     path('listar/agendamentos/', AgendamentoListView.as_view(), name='agendamento-lista'),
     path('excluir/agendamento/<int:pk>/', AgendamentoDeleteView.as_view(), name='excluir-agendamento'),
+    
+    path('cadastrar/pagamento/', PagamentoCreateView.as_view(), name='cadastrar-pagamento'),
+    path('editar/pagamento/<int:pk>/', PagamentoUpdateView.as_view(), name='editar-pagamento'),
+    path('listar/pagamentos/', PagamentoListView.as_view(), name='pagamento-lista'),
+    path('excluir/pagamento/<int:pk>/', PagamentoDeleteView.as_view(), name='excluir-pagamento'),
 ]
