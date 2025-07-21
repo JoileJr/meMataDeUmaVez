@@ -56,6 +56,11 @@ class BarbeariaUpdateView(LoginRequiredMixin, UpdateView):
         "titulo" : "Atualização de Barbearia"
     }
     
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['endereco'].queryset = Endereco.objects.filter(usuario=self.request.user)
+        return form
+    
     def get_queryset(self):
         return Barbearia.objects.filter(usuario=self.request.user)
 
@@ -68,6 +73,11 @@ class BarbeariaCreateView(LoginRequiredMixin, CreateView):
     extra_context = {
         "titulo" : "Cadastro de Barbearia"
     }
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['endereco'].queryset = Endereco.objects.filter(usuario=self.request.user)
+        return form
     
     def form_valid(self, form):
         form.instance.usuario = self.request.user
@@ -104,6 +114,11 @@ class AdministradorCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView
         "titulo" : "Cadastro de Administrador"
     }
     
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        return form
+    
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         url_sucesso = super().form_valid(form)
@@ -119,6 +134,11 @@ class AdministradorUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView
     extra_context = {
         "titulo" : "Atualização de Administrador"
     }
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        return form
     
     def get_queryset(self):
         return Administrador.objects.filter(usuario=self.request.user)
@@ -152,7 +172,12 @@ class BarbeiroCreateView(LoginRequiredMixin, CreateView):
     extra_context = {
         "titulo" : "Cadastro de Barbeiro"
     }
-    
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        return form
+
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         url_sucesso = super().form_valid(form)
@@ -167,7 +192,12 @@ class BarbeiroUpdateView(LoginRequiredMixin, UpdateView):
     extra_context = {
         "titulo" : "Atualização de Barbeiro"
     }
-    
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['barbearia'].queryset = Barbearia.objects.filter(usuario=self.request.user)
+        return form
+
     def get_queryset(self):
         return Barbeiro.objects.filter(usuario=self.request.user)
 
