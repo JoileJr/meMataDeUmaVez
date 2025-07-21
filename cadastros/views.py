@@ -8,9 +8,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from braces.views import GroupRequiredMixin
 
 ## Create views ##
+class EnderecoListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('endereco-lista')
+    model = Endereco
+    template_name = 'listas/endereco.html'
+    context_object_name = 'enderecos'
+    
+    def get_queryset(self):
+        return Endereco.objects.filter(usuario=self.request.user)
 
 class EnderecoCreateView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy('endereco-lista')
     model = Endereco
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'
@@ -25,7 +33,7 @@ class EnderecoCreateView(LoginRequiredMixin, CreateView):
         return url_sucesso
     
 class EnderecoUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy('endereco-lista')
     model = Endereco
     fields = ['rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep']
     template_name = 'cadastros/form.html'

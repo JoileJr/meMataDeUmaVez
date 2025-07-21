@@ -1,0 +1,58 @@
+{% extends "paginas/modelo.html" %}
+
+{% block conteudo %}
+<h3>
+    Lista de <b>Endereços</b>
+</h3>
+
+<hr>
+
+<div class="d-flex justify-content-center mb-3">
+    <a class="btn btn-success mb-3" href="{% url 'cadastrar-endereco' %}">
+        <i class="bi bi-plus-circle"></i> Adicionar endereço
+    </a>
+</div>
+
+<table class="table table-hover align-middle shadow-sm rounded bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Rua</th>
+            <th scope="col">Número</th>
+            <th scope="col">Complemento</th>
+            <th scope="col">Bairro</th>
+            <th scope="col">Cidade</th>
+            <th scope="col">Estado</th>
+            <th scope="col">CEP</th>
+            <th scope="col" class="text-center">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td class="fw-semibold">{{ object.rua }}</td>
+                <td class="fw-semibold">{{ object.numero }}</td>
+                <td class="fw-semibold">{{ object.complemento }}</td>
+                <td class="fw-semibold">{{ object.bairro }}</td>
+                <td class="fw-semibold">{{ object.cidade }}</td>
+                <td class="fw-semibold">{{ object.estado }}</td>
+                <td class="fw-semibold">{{ object.cep }}</td>
+                <td class="text-center">
+                    <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'editar-endereco' object.pk %}">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'excluir-endereco' object.pk %}">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                    <i class="bi bi-exclamation-circle"></i> Nenhum endereço encontrado.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

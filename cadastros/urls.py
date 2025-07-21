@@ -2,16 +2,17 @@ from django.urls import path
 
 from .views import EnderecoCreateView, BarbeariaCreateView, BarbeariaUpdateView, EnderecoUpdateView, EnderecoDeleteView, BarbeariaDeleteView, BarbeariaListView
 from .views import AdministradorCreateView, AdministradorUpdateView, AdministradorDeleteView, AdministradorListView
-from .views import BarbeiroCreateView, BarbeiroUpdateView, BarbeiroDeleteView, BarbeiroListView
+from .views import BarbeiroCreateView, BarbeiroUpdateView, BarbeiroDeleteView, BarbeiroListView, EnderecoListView
 
 urlpatterns = [
     path('cadastrar/endereco/', EnderecoCreateView.as_view(), name='cadastrar-endereco'),
     path('editar/endereco/<int:pk>/', EnderecoUpdateView.as_view(), name='editar-endereco'),
-    path('excluir/barbearia/<int:pk>/', BarbeariaDeleteView.as_view(), name='excluir-barbearia'),
-    
+    path('listar/endereco/', EnderecoListView.as_view(), name='endereco-lista' ),
+    path('excluir/endereco/<int:pk>/', EnderecoDeleteView.as_view(), name='excluir-endereco'),
+
+    path('excluir/barbearia/<int:pk>/', BarbeariaDeleteView.as_view(), name='excluir-barbearia'),    
     path('cadastrar/barbearia/', BarbeariaCreateView.as_view(), name='cadastrar-barbearia'),
     path('editar/barbearia/<int:pk>/', BarbeariaUpdateView.as_view(), name='editar-barbearia'),
-    path('excluir/endereco/<int:pk>/', EnderecoDeleteView.as_view(), name='excluir-endereco'),
     path('listar/barbearias/', BarbeariaListView.as_view(), name='barbearia-lista' ),
     
     path('cadastrar/administrador/', AdministradorCreateView.as_view(), name='cadastrar-admin'),
